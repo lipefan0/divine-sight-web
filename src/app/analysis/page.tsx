@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Markdown from "react-markdown";
 import { useForm } from "react-hook-form";
 import { analysisService } from "../../services/analysisService";
 import { bibleService } from "../../services/bibleService";
@@ -324,8 +325,8 @@ function AnalysisContent() {
             <h3 className="text-lg font-medium mb-2">
               Análise ({result.analysis_type})
             </h3>
-            <div className="bg-gray-50 p-4 rounded-md whitespace-pre-line">
-              {result.analysis}
+            <div className="bg-gray-50 p-4 rounded-md prose prose-lg max-w-none">
+              <Markdown>{result.analysis}</Markdown>
             </div>
           </div>
         </div>
