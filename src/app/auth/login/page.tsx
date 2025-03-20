@@ -28,12 +28,19 @@ export default function Login() {
     try {
       await login(data);
       router.push("/bible"); // Redireciona para a página da bíblia após o login
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Erro ao fazer login:", err);
-      setError(
-        err.response?.data?.message ||
-          "Falha ao realizar login. Verifique suas credenciais."
-      );
+      if (err && typeof err === "object" && "response" in err) {
+        const errorResponse = err as {
+          response?: { data?: { message?: string } };
+        };
+        setError(
+          errorResponse.response?.data?.message ||
+            "Falha ao realizar o login. Tente novamente."
+        );
+      } else {
+        setError("Falha ao realizar o login. Tente novamente.");
+      }
     } finally {
       setIsLoading(false);
     }

@@ -31,8 +31,10 @@ export interface VerseResponse {
 export interface SearchResult {
   book: Book;
   chapter: number;
-  verse: number;
-  text: string;
+  verse: {
+    number: number;
+    text: string;
+  };
 }
 
 export interface BooksResponse {

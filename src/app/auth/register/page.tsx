@@ -28,12 +28,19 @@ export default function Register() {
     try {
       await registerUser(data);
       router.push("/bible"); // Redireciona para a pu00e1gina da bu00edblia apu00f3s o registro
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Erro ao registrar:", err);
-      setError(
-        err.response?.data?.message ||
-          "Falha ao realizar o cadastro. Tente novamente."
-      );
+      if (err && typeof err === "object" && "response" in err) {
+        const errorResponse = err as {
+          response?: { data?: { message?: string } };
+        };
+        setError(
+          errorResponse.response?.data?.message ||
+            "Falha ao realizar o cadastro. Tente novamente."
+        );
+      } else {
+        setError("Falha ao realizar o cadastro. Tente novamente.");
+      }
     } finally {
       setIsLoading(false);
     }
