@@ -107,7 +107,10 @@ const generateMockSearchResults = (query: string, count: number = 5) => {
     results.push({
       book: book, // Usar o livro completo para garantir tipos corretos
       chapter: chapter,
-      verse: verse,
+      verse: {
+        number: verse,
+        text: `Versículo ${verse}`,
+      },
       text: `Este texto de exemplo contém a palavra "${query}" para demonstração de resultado de busca.`,
     });
   }
