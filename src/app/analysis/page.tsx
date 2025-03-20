@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { analysisService } from "../../services/analysisService";
@@ -15,7 +15,8 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import ProtectedRoute from "../../components/ProtectedRoute";
 
-export default function Analysis() {
+// Move all the logic to a separate component
+function AnalysisContent() {
   const searchParams = useSearchParams();
 
   const [books, setBooks] = useState<Book[]>([]);
@@ -140,197 +141,206 @@ export default function Analysis() {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="max-w-4xl mx-auto py-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">
-          Análise Teológica
-        </h1>
+    <div className="max-w-4xl mx-auto py-6">
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        Análise Teológica
+      </h1>
 
-        {error && (
-          <div className="bg-red-50 text-red-700 p-4 rounded-md mb-6">
-            {error}
+      {error && (
+        <div className="bg-red-50 text-red-700 p-4 rounded-md mb-6">
+          {error}
+        </div>
+      )}
+
+      <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="mb-4">
+          <div className="flex space-x-4 mb-6">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${
+                analysisMode === "passage"
+                  ? "bg-purple-100 text-purple-800 font-medium"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+              onClick={() => setAnalysisMode("passage")}
+            >
+              Analisar Passagem
+            </button>
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${
+                analysisMode === "text"
+                  ? "bg-purple-100 text-purple-800 font-medium"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+              onClick={() => setAnalysisMode("text")}
+            >
+              Analisar Texto
+            </button>
           </div>
-        )}
 
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="mb-4">
-            <div className="flex space-x-4 mb-6">
-              <button
-                type="button"
-                className={`px-4 py-2 rounded-md ${
-                  analysisMode === "passage"
-                    ? "bg-purple-100 text-purple-800 font-medium"
-                    : "bg-gray-100 text-gray-700"
-                }`}
-                onClick={() => setAnalysisMode("passage")}
-              >
-                Analisar Passagem
-              </button>
-              <button
-                type="button"
-                className={`px-4 py-2 rounded-md ${
-                  analysisMode === "text"
-                    ? "bg-purple-100 text-purple-800 font-medium"
-                    : "bg-gray-100 text-gray-700"
-                }`}
-                onClick={() => setAnalysisMode("text")}
-              >
-                Analisar Texto
-              </button>
+          {initializing ? (
+            <div className="py-6 text-center">
+              <div className="animate-spin inline-block rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-700 mb-2"></div>
+              <p>Carregando...</p>
             </div>
-
-            {initializing ? (
-              <div className="py-6 text-center">
-                <div className="animate-spin inline-block rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-700 mb-2"></div>
-                <p>Carregando...</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmitTemp(onSubmit)}>
-                {analysisMode === "passage" ? (
-                  <>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Livro
-                        </label>
-                        <select
-                          className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600"
-                          {...registerTemp("book", {
-                            required:
-                              analysisMode === "passage"
-                                ? "Selecione um livro"
-                                : false,
-                          })}
-                        >
-                          <option value="">Selecione</option>
-                          {books.map((book) => (
-                            <option key={book.abbrev} value={book.abbrev}>
-                              {book.name}
-                            </option>
-                          ))}
-                        </select>
-                        {errorsTemp.book && (
-                          <p className="mt-1 text-sm text-red-600">
-                            {errorsTemp.book.message as string}
-                          </p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Capítulo
-                        </label>
-                        <select
-                          className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600"
-                          {...registerTemp("chapter", {
-                            required:
-                              analysisMode === "passage"
-                                ? "Selecione um capítulo"
-                                : false,
-                          })}
-                          disabled={!bookAbbrev}
-                        >
-                          <option value="">Selecione</option>
-                          {[...Array(maxChapters)].map((_, i) => (
-                            <option key={i + 1} value={i + 1}>
-                              {i + 1}
-                            </option>
-                          ))}
-                        </select>
-                        {errorsTemp.chapter && (
-                          <p className="mt-1 text-sm text-red-600">
-                            {errorsTemp.chapter.message as string}
-                          </p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Versículos (opcional)
-                        </label>
-                        <Input
-                          placeholder="Ex: 1 ou 1-5"
-                          {...registerTemp("verses")}
-                        />
-                      </div>
+          ) : (
+            <form onSubmit={handleSubmitTemp(onSubmit)}>
+              {analysisMode === "passage" ? (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Livro
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600"
+                        {...registerTemp("book", {
+                          required:
+                            analysisMode === "passage"
+                              ? "Selecione um livro"
+                              : false,
+                        })}
+                      >
+                        <option value="">Selecione</option>
+                        {books.map((book) => (
+                          <option key={book.abbrev} value={book.abbrev}>
+                            {book.name}
+                          </option>
+                        ))}
+                      </select>
+                      {errorsTemp.book && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errorsTemp.book.message as string}
+                        </p>
+                      )}
                     </div>
-                  </>
-                ) : (
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Texto para Análise
-                    </label>
-                    <textarea
-                      className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600 h-36"
-                      placeholder="Digite o texto bíblico que deseja analisar..."
-                      {...registerTemp("text", {
-                        required:
-                          analysisMode === "text"
-                            ? "Digite um texto para análise"
-                            : false,
-                      })}
-                    />
-                    {errorsTemp.text && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {errorsTemp.text.message as string}
-                      </p>
-                    )}
-                  </div>
-                )}
 
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Capítulo
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600"
+                        {...registerTemp("chapter", {
+                          required:
+                            analysisMode === "passage"
+                              ? "Selecione um capítulo"
+                              : false,
+                        })}
+                        disabled={!bookAbbrev}
+                      >
+                        <option value="">Selecione</option>
+                        {[...Array(maxChapters)].map((_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1}
+                          </option>
+                        ))}
+                      </select>
+                      {errorsTemp.chapter && (
+                        <p className="mt-1 text-sm text-red-600">
+                          {errorsTemp.chapter.message as string}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Versículos (opcional)
+                      </label>
+                      <Input
+                        placeholder="Ex: 1 ou 1-5"
+                        {...registerTemp("verses")}
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : (
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tipo de Análise
+                    Texto para Análise
                   </label>
-                  <select
-                    className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600"
-                    {...registerTemp("analysis_type", {
-                      required: "Selecione um tipo de análise",
+                  <textarea
+                    className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600 h-36"
+                    placeholder="Digite o texto bíblico que deseja analisar..."
+                    {...registerTemp("text", {
+                      required:
+                        analysisMode === "text"
+                          ? "Digite um texto para análise"
+                          : false,
                     })}
-                  >
-                    {analysisTypes.map((type) => (
-                      <option key={type.id} value={type.id}>
-                        {type.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errorsTemp.analysis_type && (
+                  />
+                  {errorsTemp.text && (
                     <p className="mt-1 text-sm text-red-600">
-                      {errorsTemp.analysis_type.message as string}
+                      {errorsTemp.text.message as string}
                     </p>
                   )}
                 </div>
+              )}
 
-                <div className="mt-6">
-                  <Button type="submit" variant="primary" isLoading={loading}>
-                    Analisar
-                  </Button>
-                </div>
-              </form>
-            )}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tipo de Análise
+                </label>
+                <select
+                  className="w-full px-3 py-2 bg-white border shadow-sm border-gray-300 rounded-md focus:outline-none focus:border-purple-600"
+                  {...registerTemp("analysis_type", {
+                    required: "Selecione um tipo de análise",
+                  })}
+                >
+                  {analysisTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.name}
+                    </option>
+                  ))}
+                </select>
+                {errorsTemp.analysis_type && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errorsTemp.analysis_type.message as string}
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-6">
+                <Button type="submit" variant="primary" isLoading={loading}>
+                  Analisar
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {result && (
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <h2 className="text-xl font-semibold mb-4">Resultado da Análise</h2>
+
+          <div className="mb-4">
+            <h3 className="text-lg font-medium mb-2">Passagem</h3>
+            <div className="bg-gray-50 p-4 rounded-md">{result.passage}</div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium mb-2">
+              Análise ({result.analysis_type})
+            </h3>
+            <div className="bg-gray-50 p-4 rounded-md whitespace-pre-line">
+              {result.analysis}
+            </div>
           </div>
         </div>
+      )}
+    </div>
+  );
+}
 
-        {result && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-4">Resultado da Análise</h2>
-
-            <div className="mb-4">
-              <h3 className="text-lg font-medium mb-2">Passagem</h3>
-              <div className="bg-gray-50 p-4 rounded-md">{result.passage}</div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium mb-2">
-                Análise ({result.analysis_type})
-              </h3>
-              <div className="bg-gray-50 p-4 rounded-md whitespace-pre-line">
-                {result.analysis}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+// Main component with Suspense boundary
+export default function Analysis() {
+  return (
+    <ProtectedRoute>
+      <Suspense fallback={<div className="p-6">Carregando análise...</div>}>
+        <AnalysisContent />
+      </Suspense>
     </ProtectedRoute>
   );
 }

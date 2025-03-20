@@ -111,7 +111,6 @@ const generateMockSearchResults = (query: string, count: number = 5) => {
         number: verse,
         text: `Versículo ${verse}`,
       },
-      text: `Este texto de exemplo contém a palavra "${query}" para demonstração de resultado de busca.`,
     });
   }
 
