@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useAuth } from "../hooks/useAuth";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -14,7 +15,13 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-xl font-bold flex items-center">
-            <span className="mr-2">✝️</span>
+            <Image
+              className="mr-2"
+              src="/jesus.png"
+              width={50}
+              height={50}
+              alt="Divine Sight"
+            />
             Divine Sight
           </Link>
 
