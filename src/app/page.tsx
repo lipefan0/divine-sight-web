@@ -10,7 +10,7 @@ export default function Home() {
           <section className="flex flex-col p-12 lg:flex-row items-center justify-between lg:gap-10 gap-4 pt-10">
             <div>
               <h1 className="font-semibold lg:text-6xl text-4xl text-secondary text-left lg:mb-4">
-                Divine Sight
+                Biblia para todos
               </h1>
               <span className="font-semibold lg:text-4xl text-lg text-white mt-2 block">
                 Análise Bíblica com I.A
@@ -43,8 +43,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto p-12 lg:max-w-5xl">
-        <section className="grid lg:grid-cols-2 grid-cols-1 gap-2 items-center">
+      <div className="mx-auto py-6 px-12 lg:max-w-5xl">
+        <section className="grid lg:grid-cols-2 grid-cols-1 gap-4 items-center">
           <div className="flex items-center justify-between lg:gap-4 p-4 bg-alternativo rounded-xl max-h-[220px]">
             <Image
               src="/jesus-nuvem.svg"
@@ -86,10 +86,10 @@ export default function Home() {
 
         <section className="mt-4">
           <span className="font-light text-sm italic ">
-            O Divine Sight oferece uma perspectiva adicional para o estudo da
-            Bíblia, através de IA treinada em teologia. Utilize-o como um
-            complemento aos ensinamentos e orientações de seu pastor ou teólogo,
-            nunca como um substituto.
+            A <strong className="font-bold">Bíblia para Todos</strong> oferece
+            uma perspectiva adicional para o estudo da Bíblia, através de IA
+            treinada em teologia. Utilize-o como um complemento aos ensinamentos
+            e orientações de seu pastor ou teólogo, nunca como um substituto.
           </span>
         </section>
       </div>
