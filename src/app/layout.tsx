@@ -10,7 +10,7 @@ const inter = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Divine Sight - Análise Bíblica com IA",
+  title: "Bíblia para Todos - Análise Bíblica com IA",
   description: "Explore a Bíblia com análise teológica impulsionada por IA",
   icons: {
     icon: "/jesus.png",
