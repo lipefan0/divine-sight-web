@@ -6,6 +6,8 @@ import { bibleService } from "../../../services/bibleService";
 import { Book } from "../../../types/bible";
 import ProtectedRoute from "../../../components/ProtectedRoute";
 import Navbar from "@/components/Navbar";
+import Image from "next/image";
+import { BsArrowLeft } from "react-icons/bs";
 
 export default function NewTestamentBooks() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -94,57 +96,52 @@ export default function NewTestamentBooks() {
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="max-w-4xl mx-auto py-6">
-        <div className="flex items-center mb-6">
-          <Link
-            href="/bible"
-            className="flex items-center text-gray-500 hover:text-gray-700 mr-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-1"
+      <div className="bg-primary rounded-t-[60px] h-[calc(100%-74px)]">
+        <div className="max-w-4xl mx-auto py-6">
+          <div className="flex flex-col mb-6">
+            <Link
+              href="/bible"
+              className="flex items-center text-gray-500 hover:text-gray-700 ml-4"
             >
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            <span>Voltar</span>
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Novo Testamento</h1>
+              <BsArrowLeft className="text-white" />
+              <span className="text-white inline-block ml-2">Voltar</span>
+            </Link>
+            <h1 className="text-3xl font-bold text-white text-center">
+              Novo Testamento
+            </h1>
+          </div>
+
+          {error && (
+            <div className="bg-red-50 text-red-700 p-4 rounded-md mb-6">
+              {error}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-700"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 ld:grid-cols-5 gap-2">
+              {books.map((book) => (
+                <Link
+                  key={book.abbrev}
+                  href={`/bible/${book.abbrev}/1`}
+                  className="p-2 transition-all flex flex-col text-white items-center"
+                >
+                  <Image
+                    src={`/livro.png`}
+                    width={100}
+                    height={100}
+                    alt={`livro ${book.name}`}
+                  />
+                  <span className="font-medium text-sm my-1">{book.name}</span>
+                  <span className="text-sm">{book.chapters} capítulos</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
-
-        {error && (
-          <div className="bg-red-50 text-red-700 p-4 rounded-md mb-6">
-            {error}
-          </div>
-        )}
-
-        {loading ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-700"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {books.map((book) => (
-              <Link
-                key={book.abbrev}
-                href={`/bible/${book.abbrev}/1`}
-                className="p-4 bg-white rounded-md border border-gray-200 hover:border-purple-500 hover:shadow transition-all flex flex-col"
-              >
-                <span className="font-medium text-lg mb-1">{book.name}</span>
-                <span className="text-sm text-gray-500">
-                  {book.chapters} capítulos
-                </span>
-              </Link>
-            ))}
-          </div>
-        )}
       </div>
     </ProtectedRoute>
   );
