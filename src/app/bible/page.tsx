@@ -94,7 +94,7 @@ export default function BibleBooks() {
       <Navbar />
       <div className="bg-primary rounded-t-[60px] h-[calc(100vh-74px)]">
         <div className="max-w-4xl mx-auto h-full flex justify-center flex-col py-6">
-          <h1 className="text-3xl font-bold text-white mb-6 p-4">
+          <h1 className="text-3xl font-bold text-white mb-6 ml-4">
             Livros da Bíblia
           </h1>
 
