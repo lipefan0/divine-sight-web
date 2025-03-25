@@ -5,6 +5,7 @@ import Link from "next/link";
 import { bibleService } from "../../services/bibleService";
 import { Book } from "../../types/bible";
 import ProtectedRoute from "../../components/ProtectedRoute";
+import Navbar from "@/components/Navbar";
 
 export default function BibleBooks() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -92,6 +93,7 @@ export default function BibleBooks() {
 
   return (
     <ProtectedRoute>
+      <Navbar />
       <div className="max-w-4xl mx-auto py-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
           Livros da Bíblia
