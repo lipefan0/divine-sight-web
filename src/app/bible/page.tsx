@@ -109,7 +109,7 @@ export default function BibleBooks() {
                 width={100}
                 height={100}
                 alt="livro do antigo testamento"
-                className="lg:w-52 w-44 animate-float transition-all ease-in-out duration-300"
+                className="lg:w-52 w-24 sm:w-36 animate-float transition-all ease-in-out duration-300"
               />
               <span className="text-xl font-semibold">Antigo Testamento</span>
               <span className="text-sm mt-2">
@@ -126,7 +126,7 @@ export default function BibleBooks() {
                 width={100}
                 height={100}
                 alt="livro do antigo testamento"
-                className="lg:w-52 w-44 animate-float transition-all ease-in-out duration-300"
+                className="lg:w-52 w-24 sm:w-36 animate-float transition-all ease-in-out duration-300"
               />
               <span className="text-xl font-semibold">Novo Testamento</span>
               <span className="text-sm mt-2">
