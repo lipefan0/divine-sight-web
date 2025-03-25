@@ -16,8 +16,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-primary text-white shadow-lg">
-      <div className="container mx-auto px-4 py-3">
+    <nav className="text-alternativo">
+      <div className="container mx-auto lg:px-10 px-4 py-3">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-xl font-bold flex items-center">
             <Image
@@ -35,19 +35,17 @@ export default function Navbar() {
               <>
                 <Link
                   href="/bible"
-                  className={`hover:text-purple-200 transition-colors ${
-                    pathname.startsWith("/bible")
-                      ? "text-purple-200 font-medium"
-                      : ""
+                  className={`hover:underline transition-all ${
+                    pathname.startsWith("/bible") ? "underline font-medium" : ""
                   }`}
                 >
                   Bíblia
                 </Link>
                 <Link
                   href="/search"
-                  className={`hover:text-purple-200 transition-colors ${
+                  className={`hover:underline transition-all ${
                     pathname.startsWith("/search")
-                      ? "text-purple-200 font-medium"
+                      ? "text-alternativo underline font-medium"
                       : ""
                   }`}
                 >
@@ -55,19 +53,19 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/analysis"
-                  className={`hover:text-purple-200 transition-colors ${
+                  className={`hover:underline transition-all ${
                     pathname.startsWith("/analysis")
-                      ? "text-purple-200 font-medium"
+                      ? "text-alternativo underline font-medium"
                       : ""
                   }`}
                 >
                   Análise
                 </Link>
-                <div className="border-l border-purple-700 h-6 mx-2"></div>
+                <div className="border-l border-primary h-6 mx-2"></div>
                 <span className="text-sm">{user?.name}</span>
                 <button
                   onClick={logout}
-                  className="bg-secondary hover:opacity-60 px-3 py-1 rounded-md text-sm transition-colors"
+                  className="bg-secondary text-white hover:opacity-60 px-3 py-1 rounded-md text-sm transition-all"
                 >
                   Sair
                 </button>
@@ -76,9 +74,9 @@ export default function Navbar() {
               <>
                 <Link
                   href="/auth/login"
-                  className={`hover:text-purple-200 transition-colors ${
+                  className={`hover:underline transition-all ${
                     pathname === "/auth/login"
-                      ? "text-purple-200 font-medium"
+                      ? "text-alternativo font-medium"
                       : ""
                   }`}
                 >
@@ -86,7 +84,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="bg-secondary hover:opacity-90 px-3 py-1 rounded-md text-sm transition-colors"
+                  className="bg-secondary hover:opacity-90 px-3 py-1 rounded-md text-sm transition-all"
                 >
                   Cadastrar
                 </Link>
@@ -101,17 +99,17 @@ export default function Navbar() {
             aria-label="Toggle menu"
           >
             <span
-              className={`block w-6 h-0.5 bg-white transform transition duration-300 ease-in-out ${
+              className={`block w-6 h-0.5 bg-alternativo transform transition duration-300 ease-in-out ${
                 isMenuOpen ? "rotate-45 translate-y-2" : ""
               }`}
             ></span>
             <span
-              className={`block w-6 h-0.5 bg-white transition duration-300 ease-in-out ${
+              className={`block w-6 h-0.5 bg-alternativo transition duration-300 ease-in-out ${
                 isMenuOpen ? "opacity-0" : "opacity-100"
               }`}
             ></span>
             <span
-              className={`block w-6 h-0.5 bg-white transform transition duration-300 ease-in-out ${
+              className={`block w-6 h-0.5 bg-alternativo transform transition duration-300 ease-in-out ${
                 isMenuOpen ? "-rotate-45 -translate-y-2" : ""
               }`}
             ></span>
@@ -132,8 +130,8 @@ export default function Navbar() {
                 href="/bible"
                 className={`py-2 text-center text-lg ${
                   pathname.startsWith("/bible")
-                    ? "text-purple-200 font-medium"
-                    : ""
+                    ? "text-white underline underline-offset-2 font-medium"
+                    : "text-white"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -143,8 +141,8 @@ export default function Navbar() {
                 href="/search"
                 className={`py-2 text-center text-lg ${
                   pathname.startsWith("/search")
-                    ? "text-purple-200 font-medium"
-                    : ""
+                    ? "text-white underline underline-offset-2 font-medium"
+                    : "text-white"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -154,21 +152,21 @@ export default function Navbar() {
                 href="/analysis"
                 className={`py-2 text-center text-lg ${
                   pathname.startsWith("/analysis")
-                    ? "text-purple-200 font-medium"
-                    : ""
+                    ? "text-white underline underline-offset-2 font-medium"
+                    : "text-white"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Análise
               </Link>
-              <div className="border-t border-purple-700 w-full my-2"></div>
-              <span className="text-center">{user?.name}</span>
+              <div className="border-t border-primary w-full my-2"></div>
+              <span className="text-center text-white">{user?.name}</span>
               <button
                 onClick={() => {
                   logout();
                   setIsMenuOpen(false);
                 }}
-                className="bg-secondary hover:opacity-60 py-2 rounded-md text-lg transition-colors"
+                className="bg-secondary hover:opacity-60 py-2 rounded-md text-white text-lg transition-all"
               >
                 Sair
               </button>
@@ -178,9 +176,7 @@ export default function Navbar() {
               <Link
                 href="/auth/login"
                 className={`py-2 text-center text-lg ${
-                  pathname === "/auth/login"
-                    ? "text-purple-200 font-medium"
-                    : ""
+                  pathname === "/auth/login" ? "text-white font-medium" : ""
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -188,7 +184,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/auth/register"
-                className="bg-secondary hover:opacity-90 py-2 rounded-md text-lg transition-colors text-center"
+                className="bg-secondary hover:opacity-90 py-2 rounded-md text-lg transition-all text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Cadastrar

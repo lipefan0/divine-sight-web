@@ -6,10 +6,10 @@ import { bibleService } from "../../services/bibleService";
 import { Book } from "../../types/bible";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import Navbar from "@/components/Navbar";
+import Image from "next/image";
 
 export default function BibleBooks() {
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
   function determineTestament(abbrev: string): "old" | "new" {
@@ -80,8 +80,6 @@ export default function BibleBooks() {
           "Falha ao carregar os livros da Bíblia. Tente novamente mais tarde."
         );
         setBooks([]);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -94,64 +92,55 @@ export default function BibleBooks() {
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="max-w-4xl mx-auto py-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          Livros da Bíblia
-        </h1>
+      <div className="bg-primary rounded-t-[60px] h-[calc(100vh-74px)]">
+        <div className="max-w-4xl mx-auto py-6">
+          <h1 className="text-3xl font-bold text-white mb-6">
+            Livros da Bíblia
+          </h1>
 
-        {error && (
-          <div className="bg-red-50 text-red-700 p-4 rounded-md mb-6">
-            {error}
-          </div>
-        )}
+          {/* Adicionar links para páginas específicas de testamento */}
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mb-8">
+            <Link
+              href="/bible/oldTestament"
+              className="group hover:bg-primary/20 text-white py-6 px-4 rounded-lg text-center transition-all hover:shadow-md flex flex-col items-center justify-center"
+            >
+              <Image
+                src="/antigo-testamento.png"
+                width={100}
+                height={100}
+                alt="livro do antigo testamento"
+                className="lg:w-52 w-44 animate-float transition-all ease-in-out duration-300"
+              />
+              <span className="text-xl font-semibold">Antigo Testamento</span>
+              <span className="text-sm mt-2">
+                {oldTestamentBooks.length} livros
+              </span>
+            </Link>
 
-        {loading ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            <Link
+              href="/bible/newTestament"
+              className="group hover:bg-primary/20 text-white py-6 px-4 rounded-lg text-center transition-all hover:shadow-md flex flex-col items-center justify-center"
+            >
+              <Image
+                src="/novo-testamento.png"
+                width={100}
+                height={100}
+                alt="livro do antigo testamento"
+                className="lg:w-52 w-44 animate-float transition-all ease-in-out duration-300"
+              />
+              <span className="text-xl font-semibold">Novo Testamento</span>
+              <span className="text-sm mt-2">
+                {newTestamentBooks.length} livros
+              </span>
+            </Link>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-primary">
-                Antigo Testamento
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {oldTestamentBooks.map((book) => (
-                  <Link
-                    key={book.abbrev}
-                    href={`/bible/${book.abbrev}/1`}
-                    className="p-3 bg-white rounded-md border border-gray-200 hover:border-purple-300 hover:shadow transition-all flex justify-between items-center"
-                  >
-                    <span className="font-medium">{book.name}</span>
-                    <span className="text-sm text-gray-500">
-                      {book.chapters} cap.
-                    </span>
-                  </Link>
-                ))}
-              </div>
+
+          {error && (
+            <div className="bg-red-50 text-red-700 p-4 rounded-md mb-6">
+              {error}
             </div>
-
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-primary">
-                Novo Testamento
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {newTestamentBooks.map((book) => (
-                  <Link
-                    key={book.abbrev}
-                    href={`/bible/${book.abbrev}/1`}
-                    className="p-3 bg-white rounded-md border border-gray-200 hover:border-secondary hover:shadow transition-all flex justify-between items-center"
-                  >
-                    <span className="font-medium">{book.name}</span>
-                    <span className="text-sm text-gray-500">
-                      {book.chapters} cap.
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </ProtectedRoute>
   );
