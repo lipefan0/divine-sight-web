@@ -51,7 +51,7 @@ export default function Home() {
               width={320}
               height={320}
               alt="Bible"
-              className="lg:w-80 w-48"
+              className="lg:w-80 w-40"
             />
             <p className="lg:text-2xl text-md text-white">
               Leia a Bíblia completa. Ficou com dúvidas? Analise o versículo e a
