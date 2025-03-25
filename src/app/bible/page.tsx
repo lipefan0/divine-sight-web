@@ -92,7 +92,7 @@ export default function BibleBooks() {
   return (
     <ProtectedRoute>
       <Navbar />
-      <div className="bg-primary rounded-t-[60px] h-[calc(100vh-74px)]">
+      <div className="bg-primary rounded-t-[60px] lg:h-lvh">
         <div className="max-w-4xl mx-auto lg:h-full flex items-center justify-center flex-col">
           <h1 className="text-3xl font-bold text-white my-4 ml-4">
             Livros da Bíblia
@@ -109,7 +109,7 @@ export default function BibleBooks() {
                 width={100}
                 height={100}
                 alt="livro do antigo testamento"
-                className="lg:w-52 w-24 sm:w-36 animate-float transition-all ease-in-out duration-300"
+                className="lg:w-52 w-36 animate-float transition-all ease-in-out duration-300"
               />
               <span className="text-xl font-semibold">Antigo Testamento</span>
               <span className="text-sm mt-2">
@@ -126,7 +126,7 @@ export default function BibleBooks() {
                 width={100}
                 height={100}
                 alt="livro do antigo testamento"
-                className="lg:w-52 w-24 sm:w-36 animate-float transition-all ease-in-out duration-300"
+                className="lg:w-52 w-36 animate-float transition-all ease-in-out duration-300"
               />
               <span className="text-xl font-semibold">Novo Testamento</span>
               <span className="text-sm mt-2">
