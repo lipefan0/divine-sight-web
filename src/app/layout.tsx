@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { AuthProvider } from "../hooks/useAuth";
-import Navbar from "../components/Navbar";
 
 const inter = Poppins({
   subsets: ["latin"],
@@ -24,10 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>
+      <body className={(inter.className, "bg-background")}>
         <AuthProvider>
-          <Navbar />
-          <main className="container mx-auto px-4 py-6">{children}</main>
+          <main className="container mx-auto">{children}</main>
         </AuthProvider>
       </body>
     </html>

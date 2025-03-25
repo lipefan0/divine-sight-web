@@ -2,9 +2,11 @@
 
 @theme {
   --font-poppins: Poppins, sans-serif;
-  --color-primary: #f05444;
-  --color-secondary: #4d201c;
+  --color-primary: #ff2d55;
+  --color-secondary: #ffcc00;
+  --color-alternativo: #9d5535;
   --color-grayDetail: #968b8a;
   --color-pinkDetail: #d28fa1;
-  --color-background: #f6f7f5;
+  --color-background: #ffebf1;
+  --color-texto: #ffffff;
 }
