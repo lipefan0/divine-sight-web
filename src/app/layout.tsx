@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { AuthProvider } from "../hooks/useAuth";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Poppins({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={(inter.className, "bg-background")}>
+        <Analytics />
         <AuthProvider>
           <main className="container mx-auto">{children}</main>
         </AuthProvider>
