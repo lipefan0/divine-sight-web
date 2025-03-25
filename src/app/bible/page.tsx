@@ -94,12 +94,12 @@ export default function BibleBooks() {
       <Navbar />
       <div className="bg-primary rounded-t-[60px] h-[calc(100vh-74px)]">
         <div className="max-w-4xl mx-auto h-full flex items-center justify-center flex-col py-6">
-          <h1 className="text-3xl font-bold text-white mt-8 ml-4">
+          <h1 className="text-3xl font-bold text-white my-8 ml-4">
             Livros da Bíblia
           </h1>
 
           {/* Adicionar links para páginas específicas de testamento */}
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mb-8">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mb-8">
             <Link
               href="/bible/oldTestament"
               className="group hover:bg-primary/20 text-white py-6 px-4 rounded-lg text-center transition-all hover:shadow-md flex flex-col items-center justify-center"
