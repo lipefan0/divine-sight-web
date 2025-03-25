@@ -93,8 +93,8 @@ export default function BibleBooks() {
     <ProtectedRoute>
       <Navbar />
       <div className="bg-primary rounded-t-[60px] h-[calc(100vh-74px)]">
-        <div className="max-w-4xl mx-auto h-full flex items-center justify-center flex-col py-6">
-          <h1 className="text-3xl font-bold text-white mt-10 ml-4">
+        <div className="max-w-4xl mx-auto lg:h-full flex items-center justify-center flex-col">
+          <h1 className="text-3xl font-bold text-white my-4 ml-4">
             Livros da Bíblia
           </h1>
 
